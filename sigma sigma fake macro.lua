@@ -1,61 +1,45 @@
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2025-04-04 10:24:08
+-- Luau version 6, Types version 3
+-- Time taken: 0.001034 seconds
+
 local var1_upvw = false
 local UserInputService = game:GetService("UserInputService")
-local Players_upvr = game:GetService("Players")
-local RunService = game:GetService("RunService")
-
-local spamKeys = false
-local spamThread = nil
-
--- Function to simulate key press
-local function sendKey(key)
-    local input = Instance.new("InputObject", game)
-    input.KeyCode = key
-    input.UserInputType = Enum.UserInputType.Keyboard
-    game:GetService("VirtualUser"):InputBegan(input, false)
-    game:GetService("VirtualUser"):InputEnded(input, false)
-end
-
--- Start spamming I and O
-local function startSpamming()
-    while spamKeys do
-        -- Send I and O keys as fast as possible
-        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("I")
-        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("O")
-        wait(0)  -- As fast as possible
-    end
-end
-
-UserInputService.InputBegan:Connect(function(arg1, arg2)
-    if arg2 then
-        return
-    elseif arg1.KeyCode == Enum.KeyCode.Q then
-        -- Toggle camera mode with Q
-        var1_upvw = not var1_upvw
-        local LocalPlayer = Players_upvr.LocalPlayer
-        if LocalPlayer then
-            if var1_upvw then
-                LocalPlayer.CameraMinZoomDistance = 0.5
-                LocalPlayer.CameraMode = Enum.CameraMode.LockFirstPerson
-            else
-                LocalPlayer.CameraMinZoomDistance = 0.5
-                LocalPlayer.CameraMode = Enum.CameraMode.Classic
-            end
-        end
-    elseif arg1.KeyCode == Enum.KeyCode.E then
-        -- Start spamming I and O when E is pressed
-        spamKeys = true
-        if not spamThread then
-            spamThread = task.spawn(startSpamming)  -- Start the key spam loop
-        end
-    end
+UserInputService.InputBegan:Connect(function(arg1, arg2) -- Line 7, Named "onInputBegan"
+	--[[ Upvalues[1]:
+		[1]: var1_upvw (read and write)
+	]]
+	if arg2 then
+	elseif arg1.KeyCode == Enum.KeyCode.X then
+		var1_upvw = true
+	end
 end)
-
-UserInputService.InputEnded:Connect(function(arg1, arg2)
-    if arg2 then
-        return
-    elseif arg1.KeyCode == Enum.KeyCode.E then
-        -- Stop spamming I and O when E is released
-        spamKeys = false
-        spamThread = nil
-    end
+UserInputService.InputEnded:Connect(function(arg1, arg2) -- Line 15, Named "onInputEnded"
+	--[[ Upvalues[1]:
+		[1]: var1_upvw (read and write)
+	]]
+	if arg2 then
+	elseif arg1.KeyCode == Enum.KeyCode.X then
+		var1_upvw = false
+	end
+end)
+local Players_upvr = game:GetService("Players")
+game:GetService("RunService").Heartbeat:Connect(function() -- Line 26
+	--[[ Upvalues[2]:
+		[1]: Players_upvr (readonly)
+		[2]: var1_upvw (read and write)
+	]]
+	local LocalPlayer = Players_upvr.LocalPlayer
+	if var1_upvw then
+		LocalPlayer.CameraMinZoomDistance = 0.5
+		LocalPlayer.CameraMode = Enum.CameraMode.LockFirstPerson
+		wait(0)
+		LocalPlayer.CameraMode = Enum.CameraMode.Classic
+		LocalPlayer.CameraMinZoomDistance = 5
+		wait(0)
+	else
+		LocalPlayer.CameraMinZoomDistance = 0.5
+		LocalPlayer.CameraMode = Enum.CameraMode.Classic
+	end
 end)
