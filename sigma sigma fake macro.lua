@@ -3,7 +3,7 @@ local UserInputService = game:GetService("UserInputService")
 UserInputService.InputBegan:Connect(function(arg1, arg2)
     if arg2 then
         return
-    elseif arg1.KeyCode == Enum.KeyCode.X then
+    elseif arg1.KeyCode == Enum.KeyCode.Q then
         var1_upvw = true
     end
 end)
@@ -11,7 +11,7 @@ end)
 UserInputService.InputEnded:Connect(function(arg1, arg2)
     if arg2 then
         return
-    elseif arg1.KeyCode == Enum.KeyCode.X then
+    elseif arg1.KeyCode == Enum.KeyCode.Q then
         var1_upvw = false
     end
 end)
