@@ -1,32 +1,35 @@
-local toggle = false
-local UIS = game:GetService("UserInputService")
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local LP = Players.LocalPlayer
-
--- InputBegan event to toggle on key press
-UIS.InputBegan:Connect(function(input, gpe)
-    if not gpe and input.KeyCode == Enum.KeyCode.Q then
-        toggle = true
+local var1_upvw = false
+local UserInputService = game:GetService("UserInputService")
+UserInputService.InputBegan:Connect(function(arg1, arg2)
+    if arg2 then
+        return
+    elseif arg1.KeyCode == Enum.KeyCode.X then
+        var1_upvw = true
     end
 end)
 
--- InputEnded event to toggle off key release
-UIS.InputEnded:Connect(function(input, gpe)
-    if not gpe and input.KeyCode == Enum.KeyCode.Q then
-        toggle = false
+UserInputService.InputEnded:Connect(function(arg1, arg2)
+    if arg2 then
+        return
+    elseif arg1.KeyCode == Enum.KeyCode.X then
+        var1_upvw = false
     end
 end)
 
--- Heartbeat function to update camera mode
-RunService.Heartbeat:Connect(function()
-    if toggle then
-        -- When toggle is true, lock the camera in first-person mode
-        LP.CameraMinZoomDistance = 0.5
-        LP.CameraMode = Enum.CameraMode.LockFirstPerson
+local Players_upvr = game:GetService("Players")
+game:GetService("RunService").Heartbeat:Connect(function()
+    local LocalPlayer = Players_upvr.LocalPlayer
+    if var1_upvw then
+        -- Camera setup for first-person mode with no drift
+        if LocalPlayer.CameraMode ~= Enum.CameraMode.LockFirstPerson then
+            LocalPlayer.CameraMinZoomDistance = 0.5
+            LocalPlayer.CameraMode = Enum.CameraMode.LockFirstPerson
+        end
     else
-        -- When toggle is false, reset to classic camera mode
-        LP.CameraMinZoomDistance = 5
-        LP.CameraMode = Enum.CameraMode.Classic
+        -- Camera setup for classic mode
+        if LocalPlayer.CameraMode ~= Enum.CameraMode.Classic then
+            LocalPlayer.CameraMinZoomDistance = 0.5
+            LocalPlayer.CameraMode = Enum.CameraMode.Classic
+        end
     end
 end)
